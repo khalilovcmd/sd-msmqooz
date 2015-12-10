@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msmqooz", "Msmqooz\Msmqooz.csproj", "{D046863D-05A3-4A18-97A1-EF56EAC76CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxedIce.ServerDensity.Agent.PluginSupport", "BoxedIce.ServerDensity.Agent.PluginSupport\BoxedIce.ServerDensity.Agent.PluginSupport.csproj", "{6A68C2EB-1842-4B84-97C9-885BA534A280}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msmqooz.Tests", "Msmqooz.Tests\Msmqooz.Tests.csproj", "{6EC5EC71-02BE-4245-9E89-467FF14F89F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D046863D-05A3-4A18-97A1-EF56EAC76CC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D046863D-05A3-4A18-97A1-EF56EAC76CC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D046863D-05A3-4A18-97A1-EF56EAC76CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D046863D-05A3-4A18-97A1-EF56EAC76CC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A68C2EB-1842-4B84-97C9-885BA534A280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A68C2EB-1842-4B84-97C9-885BA534A280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A68C2EB-1842-4B84-97C9-885BA534A280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A68C2EB-1842-4B84-97C9-885BA534A280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC5EC71-02BE-4245-9E89-467FF14F89F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC5EC71-02BE-4245-9E89-467FF14F89F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC5EC71-02BE-4245-9E89-467FF14F89F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC5EC71-02BE-4245-9E89-467FF14F89F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
