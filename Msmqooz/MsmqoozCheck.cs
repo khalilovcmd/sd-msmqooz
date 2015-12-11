@@ -44,6 +44,9 @@ namespace Msmqooz
                         values.Add(queue, count);
                     }
                 }
+
+                if(values.Any())
+                    values.Add("total_message_count", values.Sum(a => (int)a.Value));
             }
 
             return values;
