@@ -1,8 +1,10 @@
 ﻿using BoxedIce.ServerDensity.Agent.PluginSupport;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Messaging;
 using System.Text;
@@ -11,65 +13,88 @@ namespace Msmqooz
 {
     public class MsmqoozCheck : ICheck
     {
-        
+        private const String QueuesKey = "Msmqooz-Queues";
+        private readonly static ILog Log = LogManager.GetLogger(typeof(PluginMetadata));
+
         public string Key
         {
-            get { return "plugin1"; }
+            get { return "Msmqooz"; }
         }
 
         public object DoCheck()
         {
-            PerformanceCounterCategory myCat = new PerformanceCounterCategory("MSMQ Queue");
-            PerformanceCounter cntr = new PerformanceCounter();
+            IDictionary<string, object> values = new Dictionary<string, object>();
 
-            cntr.CategoryName = "MSMQ Queue";
-            cntr.CounterName = "Messages in Queue";
+            List<String> queuesInConfig = GetQueueNamesFromConfig(ConfigurationManager.AppSettings[QueuesKey]);
+            List<String> queuesInMachine = GetQueueNamesByMachine();
 
-            foreach (string inst in myCat.GetInstanceNames())
+            if(queuesInConfig.Any())
             {
-                cntr.InstanceName = inst;
-                Console.Write(inst + " = ");
-                Console.WriteLine(cntr.NextValue().ToString());
+                foreach (String queue in queuesInConfig)
+                {
+                    String fullQueueName = queuesInMachine.Where(a => a.Trim().ToLower().Contains(queue.Trim().ToLower())).FirstOrDefault();
+
+                    if (String.IsNullOrEmpty(fullQueueName))
+                    {
+                        values.Add(queue, 0);
+                    }
+                    else
+                    {
+                        int count = GetQueueMessageCount(fullQueueName);
+                        values.Add(queue, count);
+                    }
+                }
             }
 
-            MessageQueue[] queues = MessageQueue.GetPrivateQueuesByMachine(Environment.MachineName);
-            
-                var counter = 
-                new PerformanceCounter("MSMQ Queue",  "Messages in Queue", @"os:private$\openbidder.impressions.queue");
-
-            Console.WriteLine("Queue contains {0} messages", counter.NextValue().ToString());
-
-            IDictionary<string, object> values = new Dictionary<string, object>();
-            values.Add("hats", 5);
-            values.Add("Dinosaur Rex", 25.4);
             return values;
         }
 
-        private List<String> GetQueueNames()
+        private List<String> GetQueueNamesByMachine()
         {
             List<String> names = new List<String>();
+
             MessageQueue[] queues = MessageQueue.GetPrivateQueuesByMachine(Environment.MachineName);
 
             if (queues.Any())
-                names = queues.Select(a => a.QueueName).ToList();
+                names.AddRange(queues.Select(a => a.MachineName + Path.DirectorySeparatorChar +  a.QueueName).ToList());
 
             return names;
         }
 
         private int GetQueueMessageCount(String queuePath)
         {
-            return 0;
+            int i = 0;
+
+            try
+            {
+                MessageQueue queue = new MessageQueue(queuePath);
+                MessageEnumerator messageEnumerator = queue.GetMessageEnumerator2();
+
+                while (messageEnumerator.MoveNext())
+                    i++;
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.Message, ex);
+            }
+
+            return i;
         }
 
-
-        private Dictionary<String, String> GetConfigs()
+        private List<String> GetQueueNamesFromConfig(String queues)
         {
-            //ConfigurationManager
+            List<String> names = new List<String>(); 
 
-            return null;
+            if (!String.IsNullOrEmpty(queues))
+            {
+                String[] splits = queues.Split(',');
+
+                if (splits.Any())
+                    names = splits.ToList();
+            }
+
+            return names;
         }
-
-
 
     }
 }
