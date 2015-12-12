@@ -20,11 +20,11 @@ A server density plugin for monitoring msmq health that works in windows.
 
  - go to directory **"C:\Program Files (x86)\Boxed Ice\Server Density\"** (your server density agent directory)
  - edit the **"BoxedIce.ServerDensity.Agent.WindowsService.exe.config"** and add comma separated values of your queue names such as:
-
-      <appSettings>
-        <add key="Msmqooz-Queues" value="myQueueOne,myQueueTwo" />
-      </appSettings>
-
+```xml
+ <appSettings>
+ <add key="Msmqooz-Queues" value="myQueueOne,myQueueTwo" />
+ </appSettings>
+ ```
  - download plugin zip **https://github.com/khalilovcmd/sd-msmqooz/releases/download/0.0.1/Msmqooz.zip**
  - create a new folder and name it as **"plugins"**
  - copy the downloaded files into the **"plugins"** folder
